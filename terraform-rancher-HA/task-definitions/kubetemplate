@@ -1,0 +1,47 @@
+description: Custom MediaIQ Kubernetes template
+name: MIQ-K8S-Template
+stacks:
+- name: healthcheck
+  template_id: library:infra*healthcheck
+- answers:
+    ADDITIONAL_KUBELET_FLAGS: --kube-reserved=cpu=500m,memory=1Gi,ephemeral-storage=1Gi,
+      --system-reserved=cpu=500m,memory=1Gi,ephemeral-storage=1Gi, --eviction-hard=memory.available<500Mi,nodefs.available<10%
+      --anonymous-auth=false
+    ADDONS_LOG_VERBOSITY_LEVEL: "3"
+    ADMISSION_CONTROLLERS: NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,ResourceQuota
+    AUDIT_LOGS: true
+    AZURE_CLIENT_ID: ""
+    AZURE_CLIENT_SECRET: ""
+    AZURE_CLOUD: AzurePublicCloud
+    AZURE_SEC_GROUP: ""
+    AZURE_TENANT_ID: ""
+    BACKUP_PERIOD: 15m0s
+    BACKUP_RETENTION: 24h
+    BASE_IMAGE_NAMESPACE: ""
+    CLOUD_PROVIDER: aws
+    CONSTRAINT_TYPE: required
+    DASHBOARD_CPU_LIMIT: 300m
+    DASHBOARD_MEMORY_LIMIT: 500Mi
+    DNS_CLUSTER_IP: 10.43.0.10
+    DNS_REPLICAS: "1"
+    EMBEDDED_BACKUPS: true
+    ENABLE_ADDONS: true
+    ENABLE_RANCHER_INGRESS_CONTROLLER: false
+    ETCD_ELECTION_TIMEOUT: "5000"
+    ETCD_HEARTBEAT_INTERVAL: "500"
+    FAIL_ON_SWAP: "false"
+    HTTP_PROXY: ""
+    INFLUXDB_HOST_PATH: ""
+    KUBEAPI_CLUSTER_IP: 10.43.0.1
+    NO_PROXY: rancher.internal,cluster.local,rancher-metadata,rancher-kubernetes-auth,kubernetes,169.254.169.254,169.254.169.250,10.42.0.0/16,10.43.0.0/16
+    POD_INFRA_CONTAINER_IMAGE: rancher/pause-amd64:3.0
+    RANCHER_LB_SEPARATOR: rancherlb
+    RBAC: true
+    REGISTRY: ""
+    SERVICE_CLUSTER_CIDR: 10.43.0.0/16
+  name: kubernetes
+  template_id: library:infra*k8s
+- name: network-services
+  template_id: library:infra*network-services
+- name: ipsec
+  template_id: library:infra*ipsec

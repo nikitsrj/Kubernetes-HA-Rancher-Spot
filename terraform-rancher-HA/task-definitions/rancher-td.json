@@ -1,0 +1,34 @@
+[
+    {
+        "name": "rancher",
+        "image": "230367374156.dkr.ecr.us-east-1.amazonaws.com/miqp-devops:rancherv1615",
+        "cpu": 0,
+        "memory": null,
+        "memoryReservation": 512,
+        "links": null,
+        "portMappings": [
+            {
+                "containerPort": 8080,
+                "hostPort": 80,
+                "protocol": "tcp"
+            }
+        ],
+        "essential": true,
+        "entryPoint": [],
+        "command": [
+                "--db-host",
+                "rancher-rds.mediaiqdigital.com",
+                "--db-port",
+                "3306",
+                "--db-user",
+                "k8s-rancher",
+                "--db-pass",
+                "mediaiqdevops",
+                "--db-name",
+                "rancher010614"
+        ],
+        "environment": [],
+        "mountPoints": [],
+        "volumesFrom": []
+    }
+]
